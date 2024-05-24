@@ -31,15 +31,12 @@ namespace ERPSystem.API.Controllers
             var companies = await _companyService.GetAllAsync(companyDTORequest);
             return Ok(ApiResponse<List<CompanyDTOResponse>>.SuccesWithData(companies));
         }
-
         [HttpPost("/Company")]
         public async Task<IActionResult> GetAsync(CompanyDTORequest companyDTORequest)
         {
             var company = await _companyService.GetAsync(companyDTORequest);
             return Ok(ApiResponse<CompanyDTOResponse>.SuccesWithData(company));
         }
-
-
         [HttpPost("/AddCompany")]
         [ValidationFilter(typeof(CompanyValidation))]
         public async Task<IActionResult> AddAsync(CompanyDTORequest companyDTORequest)
@@ -47,7 +44,6 @@ namespace ERPSystem.API.Controllers
             var company = await _companyService.AddAsync(companyDTORequest);
             return Ok(ApiResponse<CompanyDTOResponse>.SuccesWithData(company));
         }
-
         [HttpPost("/UpdateCompany")]
         [ValidationFilter(typeof(CompanyValidation))]
         public async Task<IActionResult> UpdateAsync(CompanyDTORequest companyDTORequest)
@@ -55,7 +51,6 @@ namespace ERPSystem.API.Controllers
             await _companyService.UpdateAsync(companyDTORequest);
             return Ok(ApiResponse<CompanyDTOResponse>.SuccesWithOutData());
         }
-
         [HttpPost("/DeleteCompany")]
         public async Task<IActionResult> DeleteAsync(CompanyDTORequest companyDTORequest)
         {

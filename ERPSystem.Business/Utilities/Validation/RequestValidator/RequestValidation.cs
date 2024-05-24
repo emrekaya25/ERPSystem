@@ -17,6 +17,7 @@ namespace ERPSystem.Business.Utilities.Validation.RequestValidator
             RuleFor(x => x.Description).NotEmpty().WithMessage("İstek açıklaması boş olamaz!"); ;
             RuleFor(x => x.Description).MinimumLength(3).MaximumLength(1000).WithMessage("İstek açıklaması 3 karakterden küçük, 1000 karakterden büyük olamaz!");
             RuleFor(x => x.Quantity).NotEmpty().WithMessage("İstek miktar bilgisi girilmelidir!");
+            RuleFor(x => x.Quantity).GreaterThan(0).WithMessage("Miktar bilgisi 0 dan büyük girilmelidir!");
         }
     }
 }

@@ -23,26 +23,20 @@ namespace ERPSystem.API.Controllers
         private readonly IUserService _userService;
         private readonly IConfiguration _configuration;
         private readonly IUserRoleService _userRoleService;
-
-
         public LoginController(IConfiguration configuration, IUserService userService, IUserRoleService userRoleService)
         {
             _configuration = configuration;
             _userService = userService;
             _userRoleService = userRoleService;
         }
-
         [HttpPost("/LoginAsync")]
         public async Task<IActionResult> LoginAsync(LoginDTORequest loginDTORequest)
         {
             var user = await _userService.LoginAsync(loginDTORequest);
-
             if (user == null)
             {
                 return Ok(ApiResponse<LoginDTOResponse>.SuccesNoDataFound("Kullanıcı Adı veya Şifre Hatalı, Tekrar Deneyiniz!"));
             }
-
-
             else
             {
                 List<Claim> claims = new List<Claim>()
@@ -78,10 +72,7 @@ namespace ERPSystem.API.Controllers
                 user.Token = tokenHandler.WriteToken(token);
 
                 return Ok(ApiResponse<LoginDTOResponse>.SuccesWithData(user));
-            }
-
-
-            
+            }   
         }
     }
 }

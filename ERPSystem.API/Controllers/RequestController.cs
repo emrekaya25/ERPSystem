@@ -55,7 +55,7 @@ namespace ERPSystem.API.Controllers
             return Ok(ApiResponse<RequestDTOResponse>.SuccesWithOutData());
         }
 
-        [Authorize(Roles = "Admin,Müdür")]
+        [Authorize(Roles = "Admin,Müdür,Çalışan")]
         [HttpPost("/DeleteRequest")]
         public async Task<IActionResult> DeleteAsync(RequestDTORequest requestDTORequest)
         {

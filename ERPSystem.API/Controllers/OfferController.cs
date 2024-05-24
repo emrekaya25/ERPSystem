@@ -49,7 +49,7 @@ namespace ERPSystem.API.Controllers
         public async Task<IActionResult> UpdateAsync(OfferDTORequest offerDTORequest)
         {
             await _offerService.UpdateAsync(offerDTORequest);
-            return Ok(ApiResponse<OfferDTOResponse>.SuccesWithOutData());
+            return Ok(ApiResponse<OfferDTOResponse>.SuccesWithOutData("İşlem Başarılı!!"));
         }
 
         [HttpPost("/DeleteOffer")]

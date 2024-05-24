@@ -64,7 +64,7 @@ namespace ERPSystem.Business.Concrete
 
                 var invoice = _mapper.Map<Invoice>(RequestEntity);
 
-                var dbInvoices = await _uow.InvoiceRepository.GetAllAsync(x => x.Company.Id == RequestEntity.CompanyId && x.IsActive == false, "Company","InvoiceDetails");
+                var dbInvoices = await _uow.InvoiceRepository.GetAllAsync(x => x.Company.Id == RequestEntity.CompanyId && x.IsActive == true, "Company","InvoiceDetails");
 
                 
 

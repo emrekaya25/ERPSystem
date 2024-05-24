@@ -76,9 +76,7 @@ namespace ERPSystem.Business.Concrete
                 }
                 return departmentDTOResponses;
             }
-            
         }
-
         public async Task<DepartmentDTOResponse> GetAsync(DepartmentDTORequest RequestEntity)
         {
             var department = _mapper.Map<Department>(RequestEntity);
@@ -86,17 +84,14 @@ namespace ERPSystem.Business.Concrete
             DepartmentDTOResponse departmentDTOResponse = _mapper.Map<DepartmentDTOResponse>(dbDepartment);
             return departmentDTOResponse;
         }
-
         public async Task UpdateAsync(DepartmentDTORequest RequestEntity)
         {
-
             var department = await _uow.DepartmentRepository.GetAsync(x=>x.Id == RequestEntity.Id);
             if (RequestEntity.CompanyId == 0)
             {
                 RequestEntity.CompanyId = department.CompanyId;
             }
             department = _mapper.Map(RequestEntity,department);
-
             await _uow.DepartmentRepository.UpdateAsync(department);
             await _uow.SaveChangeAsync();
         }
