@@ -3,6 +3,7 @@ using ERPSystem.Business.Abstract;
 using ERPSystem.DataAccess.Abstract.DataManagement;
 using ERPSystem.Entity.DTO.LoginDTO;
 using ERPSystem.Entity.DTO.UserDTO;
+using ERPSystem.Entity.DTO.UserRoleDTO;
 using ERPSystem.Entity.Entities;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,12 @@ namespace ERPSystem.Business.Concrete
             var addedUser = await _uow.UserRepository.AddAsync(user);
             await _uow.SaveChangeAsync();
 
+            var userRoles = new UserRole();
+            userRoles.UserId = user.Id;
+            userRoles.RoleId = 3;
+            await _uow.UserRoleRepository.AddAsync(userRoles);
+            await _uow.SaveChangeAsync();
+
             UserDTOResponse userDTOResponse = _mapper.Map<UserDTOResponse>(addedUser.Entity);
             return userDTOResponse;
 
@@ -36,6 +43,10 @@ namespace ERPSystem.Business.Concrete
 
         public async Task DeleteAsync(UserDTORequest RequestEntity)
         {
+            //ilk önce rolünü siliyorum
+            var userRoles = await _uow.UserRoleRepository.GetAsync(x=>x.UserId == RequestEntity.Id);
+            await _uow.UserRoleRepository.RemoveAsync(userRoles);
+
             var user = _mapper.Map<User>(RequestEntity);
             await _uow.UserRepository.RemoveAsync(user);
             await _uow.SaveChangeAsync();
