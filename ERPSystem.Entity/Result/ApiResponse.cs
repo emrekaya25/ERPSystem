@@ -61,8 +61,12 @@ namespace ERPSystem.Entity.Result
         {
             return new ApiResponse<T>(message, statusCode, ErrorInformation.FieldValidationError(errorMessages));
         }
+		public static ApiResponse<T> RequestUpdateError(List<string>? errorMessages = null, string message = "Hata Oluştu", int statusCode = (int)HttpStatusCode.OK)
+		{
+			return new ApiResponse<T>(message, statusCode, ErrorInformation.RequestUpdateError(errorMessages));
+		}
 
-        public static ApiResponse<T> AuthenticationError(string message, int statusCode = (int)HttpStatusCode.NotFound)
+		public static ApiResponse<T> AuthenticationError(string message, int statusCode = (int)HttpStatusCode.NotFound)
         {
             return new ApiResponse<T>(message, statusCode, ErrorInformation.AuthenticationError());
         }

@@ -4,8 +4,10 @@ using ERPSystem.Business.Abstract;
 using ERPSystem.Business.Utilities.Attributes;
 using ERPSystem.Business.Utilities.Validation.RequestValidator;
 using ERPSystem.DataAccess.Abstract.DataManagement;
+using ERPSystem.Entity.CustomException;
 using ERPSystem.Entity.DTO.RequestDTO;
 using ERPSystem.Entity.Entities;
+using ERPSystem.Entity.Result;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +44,7 @@ namespace ERPSystem.Business.Concrete
         public async Task DeleteAsync(RequestDTORequest RequestEntity)
         {
             var request = _mapper.Map<Request>(RequestEntity);
+
             await _uow.RequestRepository.RemoveAsync(request);
             await _uow.SaveChangeAsync();
         }
@@ -145,7 +148,7 @@ namespace ERPSystem.Business.Concrete
         public async Task UpdateAsync(RequestDTORequest RequestEntity)
         {
 
-            var request = await _uow.RequestRepository.GetAsync(x=>x.Id == RequestEntity.Id);
+            var request = await _uow.RequestRepository.GetAsync(x=>x.Id == RequestEntity.Id,"Offers");
             if (RequestEntity.ApproverId == 0   )
             {
                 RequestEntity.ApproverId = null;
@@ -162,6 +165,10 @@ namespace ERPSystem.Business.Concrete
             else if (RequestEntity.ProductId == 0)
             {
                 RequestEntity.ProductId = request.ProductId;
+            }
+            if (request.Offers.Count()>0)
+            {
+                throw new RequestUpdateException(new List<string> {"Bir şeyler ters gitti"});
             }
 
             request = _mapper.Map(RequestEntity,request);

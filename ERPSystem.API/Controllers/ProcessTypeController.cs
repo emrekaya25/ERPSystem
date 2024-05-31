@@ -14,7 +14,7 @@ namespace ERPSystem.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin,Müdür")]
+
     public class ProcessTypeController : ControllerBase
     {
         private readonly IProcessTypeService _processTypeService;
@@ -23,24 +23,24 @@ namespace ERPSystem.API.Controllers
         {
             _processTypeService = processTypeService;
         }
-
-        [HttpPost("/ProcessTypes")]
+		[Authorize(Roles = "Admin,Müdür")]
+		[HttpPost("/ProcessTypes")]
         public async Task<IActionResult> GetAllAsync(ProcessTypeDTORequest processTypeDTORequest)
         {
             var processTypes = await _processTypeService.GetAllAsync(processTypeDTORequest);
 
             return Ok(ApiResponse<List<ProcessTypeDTOResponse>>.SuccesWithData(processTypes));
         }
-
-        [HttpPost("/ProcessType")]
+		[Authorize(Roles = "Admin,Müdür")]
+		[HttpPost("/ProcessType")]
         public async Task<IActionResult> GetAsync(ProcessTypeDTORequest processTypeDTORequest)
         {
             var processType = await _processTypeService.GetAsync(processTypeDTORequest);
 
             return Ok(ApiResponse<ProcessTypeDTOResponse>.SuccesWithData(processType));
         }
-
-        [HttpPost("/AddProcessType")]
+		[Authorize(Roles = "Admin")]
+		[HttpPost("/AddProcessType")]
         [ValidationFilter(typeof(ProcessTypeValidation))]
         public async Task<IActionResult> AddAsync(ProcessTypeDTORequest processTypeDTORequest)
         {
@@ -48,16 +48,16 @@ namespace ERPSystem.API.Controllers
 
             return Ok(ApiResponse<ProcessTypeDTOResponse>.SuccesWithData(addedProcessType));
         }
-
-        [HttpPost("/UpdateProcessType")]
+		[Authorize(Roles = "Admin")]
+		[HttpPost("/UpdateProcessType")]
         [ValidationFilter(typeof(ProcessTypeValidation))]
         public async Task<IActionResult> UpdateAsync(ProcessTypeDTORequest processTypeDTORequest)
         {
             await _processTypeService.UpdateAsync(processTypeDTORequest);
             return Ok(ApiResponse<ProcessTypeDTOResponse>.SuccesWithOutData());
         }
-
-        [HttpPost("/DeleteProcessType")]
+		[Authorize(Roles = "Admin")]
+		[HttpPost("/DeleteProcessType")]
         public async Task<IActionResult> DeleteAsync(ProcessTypeDTORequest processTypeDTORequest)
         {
             await _processTypeService.DeleteAsync(processTypeDTORequest);

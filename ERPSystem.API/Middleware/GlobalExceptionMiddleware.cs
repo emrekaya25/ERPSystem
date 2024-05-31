@@ -94,7 +94,20 @@ namespace ERPSystem.API.Middleware
                         PropertyNamingPolicy = null
                     });
                 }
-                else
+				else if (e.GetType() == typeof(RequestUpdateException))
+				{
+					List<string> errors = new();
+					errors = e.Data["RequestUpdateErrors"] as List<string>;
+
+
+					httpContext.Response.StatusCode = (int)HttpStatusCode.OK;
+					httpContext.Response.ContentType = "application/json";
+					await httpContext.Response.WriteAsJsonAsync(ApiResponse<RequestUpdateException>.RequestUpdateError(errors), new JsonSerializerOptions()
+					{
+						PropertyNamingPolicy = null
+					});
+				}
+				else
                 {
                     httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     httpContext.Response.ContentType = "application/json";

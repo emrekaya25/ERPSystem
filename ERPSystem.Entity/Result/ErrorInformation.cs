@@ -21,8 +21,12 @@ namespace ERPSystem.Entity.Result
         {
             return new ErrorInformation { Error = error, ErrorDescription = errorDescription };
         }
+		public static ErrorInformation RequestUpdateError(object? error = null, string errorDescription = "Bir Hata Oluştu Daha Sonra Tekrar deneyiniz!!")
+		{
+			return new ErrorInformation { Error = error, ErrorDescription = errorDescription };
+		}
 
-        public static ErrorInformation NotFound(string errorDescription = "Sonuç bulunamadı!!", object? error = null)
+		public static ErrorInformation NotFound(string errorDescription = "Sonuç bulunamadı!!", object? error = null)
         {
             return new ErrorInformation { Error = error, ErrorDescription = errorDescription };
         }

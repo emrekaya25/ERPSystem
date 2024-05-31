@@ -14,7 +14,7 @@ namespace ERPSystem.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin,Müdür,Çalışan")]
+
     public class UnitController : ControllerBase
     {
         private readonly IUnitService _unitService;
@@ -23,38 +23,38 @@ namespace ERPSystem.API.Controllers
         {
             _unitService = unitService;
         }
-
-        [HttpPost("/Units")]
+		[Authorize(Roles = "Admin,Müdür,Çalışan")]
+		[HttpPost("/Units")]
         public async Task<IActionResult> GetAllAsync(UnitDTORequest unitDTORequest)
         {
             var unitDetails = await _unitService.GetAllAsync(unitDTORequest);
             return Ok(ApiResponse<List<UnitDTOResponse>>.SuccesWithData(unitDetails));
         }
-
-        [HttpPost("/Unit")]
+		[Authorize(Roles = "Admin,Müdür,Çalışan")]
+		[HttpPost("/Unit")]
         public async Task<IActionResult> GetAsync(UnitDTORequest unitDTORequest)
         {
             var unit = await _unitService.GetAsync(unitDTORequest);
             return Ok(ApiResponse<UnitDTOResponse>.SuccesWithData(unit));
         }
-
-        [HttpPost("/AddUnit")]
+		[Authorize(Roles = "Admin")]
+		[HttpPost("/AddUnit")]
         [ValidationFilter(typeof(UnitValidation))]
         public async Task<IActionResult> AddAsync(UnitDTORequest unitDTORequest)
         {
             var addedUnit = await _unitService.AddAsync(unitDTORequest);
             return Ok(ApiResponse<UnitDTOResponse>.SuccesWithData(addedUnit));
         }
-
-        [HttpPost("/UpdateUnit")]
+		[Authorize(Roles = "Admin")]
+		[HttpPost("/UpdateUnit")]
         [ValidationFilter(typeof(UnitValidation))]
         public async Task<IActionResult> UpdateAsync(UnitDTORequest unitDTORequest)
         {
             await _unitService.UpdateAsync(unitDTORequest);
             return Ok(ApiResponse<UnitDTOResponse>.SuccesWithOutData());
         }
-
-        [HttpPost("/DeleteUnit")]
+		[Authorize(Roles = "Admin")]
+		[HttpPost("/DeleteUnit")]
         public async Task<IActionResult> DeleteAsync(UnitDTORequest unitDTORequest)
         {
             await _unitService.DeleteAsync(unitDTORequest);
